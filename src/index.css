@@ -1,13 +1,535 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/*
+========================================
+DESIGN SYSTEM
+========================================
+
+Typography
+----------------------------------------
+Font sizes (px)
+10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 / 52 / 62 / 74 / 86 / 98
+
+Font weights
+400 — Regular
+500 — Medium
+600 — Semi-bold
+700 — Bold
+
+Line heights
+1        — Default
+1.05     — Small
+1.2      — Medium
+1.6      — Paragraph
+1.8      — Large
+
+Letter spacing
+-0.5px / 0.75px
+
+
+Colors
+----------------------------------------
+Primary
+#632ee3
+#9f62f2
+
+Neutrals
+#130b2d
+#001931
+#34485a
+#627382
+#a1a1aa
+#000
+#fff
+#f5f5f5
+#e5e7eb
+#fafafa
+
+Accents
+#1bae4f
+#54cf68
+#00827a
+
+Status colors
+Open
+  bg: #b9f8cf
+  text: #0b5e06
+In-Progress
+  bg: #f8f3b9
+  text: #9c7700
+Resolved
+  bg: #e0e7ff
+
+Priority colors
+High   — #f83044
+Medium — #febb0c
+Low    — #02a53b
+
+
+Shadows
+----------------------------------------
+0 0 3rem #ddd
+0 0 0.5rem #ddd
+
+
+Border radius
+----------------------------------------
+0.9rem / 1.5rem / 50%
+
+
+Spacing scale (px)
+----------------------------------------
+2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+@import "./queries.css";
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html {
+	font-size: 62.5%;
+}
+
+body {
+	font-family: "Inter", "sans-serif";
+	font-size: 1.6rem;
+	font-weight: 400;
+	color: #627382;
+}
+
+ul {
+	list-style: none;
+}
+
+button {
+	appearance: none;
+	border: none;
+	background: none;
+	padding: 0;
+	cursor: pointer;
+	font: inherit;
+	color: inherit;
+}
+
+/**************************/
+/* REUSABLE COMPONENTS */
+/**************************/
+
+.container {
+	max-width: 130rem;
+	padding: 0 3.2rem;
+	margin: 0 auto;
+}
+
+/* .primary-heading {
+	color: #fff;
+	font-weight: 700;
+	margin-bottom: 0.6rem;
+} */
+
+.secondary-heading {
+	color: #34485a;
+	font-size: 3rem;
+	font-weight: 600;
+}
+
+.tertiary-heading {
+	color: #001931;
+	font-size: 1.8rem;
+	font-weight: 500;
+}
+
+.quaternary-heading {
+	color: #fff;
+	font-size: 1.8rem;
+	font-weight: 400;
+}
+
+.flex {
+	display: flex;
+}
+
+.flex--dir-col {
+	flex-direction: column;
+}
+
+.justify-between {
+	justify-content: space-between;
+}
+
+.align-center {
+	align-items: center;
+}
+
+.align-start {
+	align-items: flex-start;
+}
+
+.grid {
+	display: grid;
+}
+
+.grid--7-3 {
+	grid-template-columns: 7fr 3fr;
+}
+
+.grid--2-4 {
+	grid-template-columns: 2fr 4fr;
+}
+
+.grid--1-1 {
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.grid--4-cols {
+	grid-template-columns: repeat(4, 1fr);
+}
+
+.gap-xs {
+	gap: 0.5rem;
+}
+
+.gap-sm {
+	gap: 1rem;
+}
+
+.gap-rg {
+	gap: 1.6rem;
+}
+
+.gap-md {
+	gap: 2.4rem;
+}
+
+.gap-lg {
+	gap: 3.2rem;
+}
+
+.gap-xlg {
+	gap: 4.8rem;
+}
+
+.mb-sm {
+	margin-bottom: 1.6rem;
+}
+
+.mb-rg {
+	margin-bottom: 2.4rem;
+}
+
+/**************************/
+/* NAV BAR */
+/**************************/
+
+.header {
+	display: flex;
+	gap: 4.8rem;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #fff;
+	padding: 1.6rem 4.8rem;
+}
+
+.logo {
+	font-size: 3.2rem;
+	color: #130b2d;
+	font-weight: 700;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.main-nav-list {
+	display: flex;
+	align-items: center;
+	gap: 3.2rem;
+}
+
+.main-nav-link:link,
+.main-nav-link:visited {
+	text-decoration: none;
+	font-size: 1.6rem;
+	color: #000;
+
+	transition: all 0.3s;
+}
+
+.main-nav-link:hover,
+.main-nav-link:active {
+	color: #9f62f2;
+}
+
+.main-nav-link.nav-cta {
+	color: #fff;
+	font-weight: 600;
+	padding: 1.2rem 2.4rem;
+	border-radius: 0.9rem;
+	background-image: linear-gradient(to bottom right, #632ee3, #9f62f2);
+	white-space: nowrap;
+}
+
+.main-nav-link.nav-cta:hover,
+.main-nav-link.nav-cta:active {
+	background-image: linear-gradient(to bottom right, #9f62f2, #632ee3);
+}
+
+/* MOBILE */
+
+.btn-mobile-nav {
+	display: none;
+}
+
+/**************************/
+/* SECTION HERO */
+/**************************/
+.section-hero {
+	background-color: #f5f5f5;
+	padding: 9.6rem 0rem;
+}
+
+.hero {
+	max-width: 130rem;
+
+	display: flex;
+	justify-content: space-between;
+	gap: 3.2rem;
+
+	margin: 0 auto;
+	padding: 0 3.2rem;
+}
+
+.container-progress,
+.container-resolved {
+	position: relative;
+	/* width: 60rem; */
+	width: 100%;
+	aspect-ratio: 60/25;
+	/* height: clamp(20rem, 20vw, 25rem); */
+	/* height: 15vw; */
+
+	border-radius: 0.9rem;
+}
+
+.container-progress {
+	background-image: linear-gradient(to right, #632ee3, #9f62f2);
+}
+
+.status-text-box {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.status-title {
+	color: #fff;
+	font-size: 3.6rem;
+	font-weight: 500;
+	margin-bottom: 0.8rem;
+}
+
+.status-count {
+	color: #fff;
+	font-size: 5.2rem;
+	font-weight: 700;
+}
+
+.container-resolved {
+	background-image: linear-gradient(to right, #54cf68, #00827a);
+}
+
+.hero-images-container {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.hero-img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: top; /* new concept */
+}
+
+.hero-right-img {
+	transform: scaleX(-1);
+}
+
+/**************************/
+/* SECTION MAIN */
+/**************************/
+
+/*************/
+/* Customer Tickets */
+/*************/
+
+.section-main {
+	background-color: #f5f5f5;
+	padding-bottom: 9.6rem;
+}
+
+.card {
+	padding: 2.4rem;
+	border-radius: 1.5rem;
+	box-shadow: 0 0 3rem #ddd;
+}
+
+.card .tertiary-heading {
+	margin-top: 0.4rem;
+}
+
+.card-status {
+	padding: 0.5rem 1rem;
+	border-radius: 1.5rem;
+	white-space: nowrap;
+}
+
+.bg-green {
+	color: #0b5e06;
+	background-color: #b9f8cf;
+}
+
+.bg-yellow {
+	color: #9c7700;
+	background-color: #f8f3b9;
+}
+
+.card-status svg {
+	transform: translateY(0.1rem);
+}
+
+.card-meta {
+	font-size: 1.4rem;
+}
+
+.card-priority {
+	text-transform: uppercase;
+}
+
+/* Priority */
+.red {
+	color: #f83044;
+}
+
+.yellow {
+	color: #febb0c;
+}
+
+.green {
+	color: #02a53b;
+}
+
+.calender-icon {
+	display: inline-block;
+	/* width: 1rem; */
+	width: 1.2rem;
+}
+
+/*************/
+/* Task Status */
+/*************/
+
+.btn-complete {
+	background-color: #02a53b;
+	color: #fff;
+	padding: 1.2rem 2.4rem;
+	border-radius: 0.9rem;
+}
+
+.btn-complete:hover,
+.btn-complete:active {
+	background-color: #1bae4f;
+}
+
+.bg-blue {
+	background-color: #e0e7ff;
+}
+
+/*************/
+/* Resolved Task */
+/*************/
+
+.resolved {
+	border-radius: 0.9rem;
+	padding: 1.2rem 2.4rem;
+	box-shadow: 0 0 0.5rem #ddd;
+}
+
+/**************************/
+/* SECTION FOOTER */
+/**************************/
+
+/*************/
+/* Main Footer */
+/*************/
+
+.section-footer {
+	background-color: #000;
+	padding-top: 9.6rem;
+	color: #a1a1aa;
+	font-size: 1.4rem;
+}
+
+.section-footer .logo {
+	color: #fff;
+	font-size: 2.4rem;
+}
+
+.footer-link:link,
+.footer-link:visited {
+	text-decoration: none;
+	color: #a1a1aa;
+
+	transition: all 0.3s;
+}
+
+.footer-link:hover,
+.footer-link:active {
+	color: #9f62f2;
+}
+
+.footer-icon {
+	position: relative;
+	z-index: 1;
+}
+
+.footer-icon > svg {
+	margin-top: 0.4rem;
+	margin-left: 0.074rem;
+}
+
+.footer-icon::after {
+	content: "";
+	display: block;
+	width: 2.4rem;
+	height: 2.4rem;
+	border-radius: 50%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	z-index: -1;
+}
+
+/*************/
+/* Copyright */
+/*************/
+.copyright {
+	padding: 2.4rem 0;
+	margin-top: 9.6rem;
+	border-top: 1px solid #e5e7eb;
+	color: #fafafa;
+	font-size: 1.2rem;
+	text-align: center;
 }
