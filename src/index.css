@@ -82,8 +82,6 @@ Spacing scale (px)
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
-@import "./queries.css";
-
 * {
 	padding: 0;
 	margin: 0;
@@ -384,6 +382,10 @@ button {
 	box-shadow: 0 0 3rem #ddd;
 }
 
+.section-ticket .card {
+	cursor: pointer;
+}
+
 .card .tertiary-heading {
 	margin-top: 0.4rem;
 }
@@ -532,4 +534,9 @@ button {
 	color: #fafafa;
 	font-size: 1.2rem;
 	text-align: center;
+}
+
+/* Toastify */
+.Toastify__toast {
+	font-family: "Inter", sans-serif !important;
 }
