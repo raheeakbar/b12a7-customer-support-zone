@@ -74,6 +74,9 @@
 }
 
 @media (max-width: 50em) {
+	.app {
+		position: relative;
+	}
 	/* MOBILE NAVIGATION */
 
 	/* DEFAULT MOBILE VIEW */

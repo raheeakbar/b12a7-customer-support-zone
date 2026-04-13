@@ -7,20 +7,93 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 
 export default function App() {
+	const [tickets, setTickets] = useState(ticketsData);
+	const [pendingTickets, setPendingTickets] = useState([]);
+	const [resolvedTickets, setResolvedTickets] = useState([]);
+
+	function handlePendingTicket(newPendingTicket) {
+		const isTicketExist = pendingTickets.find(
+			(ticket) => ticket.id === newPendingTicket.id,
+		);
+
+		if (!isTicketExist) {
+			toast.success(`[In-Progress] '${newPendingTicket.title}'`);
+
+			setPendingTickets((prevTickets) => [...prevTickets, newPendingTicket]);
+
+			setTickets((prevTickets) =>
+				prevTickets.map((ticket) =>
+					ticket.id === newPendingTicket.id
+						? { ...ticket, status: "In-Progress" }
+						: ticket,
+				),
+			);
+		} else {
+			toast.warn(`Ticket is already In-Progress`);
+		}
+
+		// onPendingTicket((prevTickets) => {
+		// 	const isTicketExist = Boolean(
+		// 		prevTickets.find((ticket) => ticket.id === newPendingTicket.id),
+		// 	);
+
+		// 	console.log(newPendingTicket);
+
+		// 	if (!isTicketExist) {
+		// 		toast.success(`'${newPendingTicket.title}' is ${newPendingTicket.status}`, {
+		// 			toastId: "duplicate-ticket",
+		// 		});
+		// 		return [...prevTickets, newPendingTicket];
+		// 	} else {
+		// 		toast.warn("Ticket already exists", { toastId: "duplicate-ticket" });
+		// 		return prevTickets;
+		// 	}
+		// });
+	}
+
+	function handleResolveTicket(newResolvedTicket) {
+		setPendingTickets((prevTickets) =>
+			prevTickets.filter((ticket) => ticket.id !== newResolvedTicket.id),
+		);
+
+		setResolvedTickets((prevTickets) => [...prevTickets, newResolvedTicket]);
+
+		setTickets((prevTickets) =>
+			prevTickets.filter((ticket) => ticket.id !== newResolvedTicket.id),
+		);
+
+		toast.success(`[Resolved] '${newResolvedTicket.title}'`);
+	}
+
 	return (
 		<div className="app">
 			<ToastContainer />
 			<Header />
-			<Hero />
-			<MainSection />
+			<Hero
+				pendingTicketsCount={pendingTickets.length}
+				resolvedTicketsCount={resolvedTickets.length}
+			/>
+			<MainSection
+				tickets={tickets}
+				pendingTickets={pendingTickets}
+				onPendingTicket={handlePendingTicket}
+				resolvedTickets={resolvedTickets}
+				onResolveTicket={handleResolveTicket}
+			/>
 			<Footer />
 		</div>
 	);
 }
 
 function Header() {
+	const [isOpenMenu, setIsOpenMenu] = useState(false);
+
+	function handleMenu() {
+		setIsOpenMenu((open) => !open);
+	}
+
 	return (
-		<header className="header">
+		<header className={`header${isOpenMenu ? ` nav-open` : ``}`}>
 			<a href="#" className="logo">
 				CS - Ticket System
 			</a>
@@ -66,7 +139,7 @@ function Header() {
 				</ul>
 			</nav>
 
-			<button className="btn-mobile-nav">
+			<button className="btn-mobile-nav" onClick={handleMenu}>
 				<svg
 					className="icon-mobile-nav"
 					name="menu-outline"
@@ -94,18 +167,14 @@ function Header() {
 	);
 }
 
-function Hero() {
-	return <Dashboard />;
-}
-
-function Dashboard() {
+function Hero({ pendingTicketsCount, resolvedTicketsCount }) {
 	return (
 		<section className="section-hero">
 			<div className="hero">
 				<div className="container-progress">
 					<div className="status-text-box">
 						<h1 className="status-title">In-Progress</h1>
-						<p className="status-count">0</p>
+						<p className="status-count">{pendingTicketsCount}</p>
 					</div>
 					<div className="hero-images-container">
 						<div className="hero-img-box">
@@ -127,7 +196,7 @@ function Dashboard() {
 				<div className="container-resolved">
 					<div className="status-text-box">
 						<h1 className="status-title">Resolved</h1>
-						<p className="status-count">0</p>
+						<p className="status-count">{resolvedTicketsCount}</p>
 					</div>
 					<div className="hero-images-container">
 						<div className="hero-img-box">
@@ -151,58 +220,22 @@ function Dashboard() {
 	);
 }
 
-function MainSection() {
-	const [tickets, setTickets] = useState(ticketsData);
-	const [pendingTickets, setPendingTickets] = useState([]);
-
-	function handlePendingTicket(newTicket) {
-		// setPendingTickets((prevTickets) => {
-		// 	const isTicketExist = Boolean(
-		// 		prevTickets.find((ticket) => ticket.id === newTicket.id),
-		// 	);
-
-		// 	console.log(newTicket);
-
-		// 	if (!isTicketExist) {
-		// 		toast.success(`'${newTicket.title}' is ${newTicket.status}`, {
-		// 			toastId: "duplicate-ticket",
-		// 		});
-		// 		return [...prevTickets, newTicket];
-		// 	} else {
-		// 		toast.warn("Ticket already exists", { toastId: "duplicate-ticket" });
-		// 		return prevTickets;
-		// 	}
-		// });
-
-		const isTicketExist = pendingTickets.find(
-			(ticket) => ticket.id === newTicket.id,
-		);
-
-		if (!isTicketExist) {
-			toast.success(`'${newTicket.title}' is ${newTicket.status}`);
-
-			setPendingTickets((prevTickets) => [...prevTickets, newTicket]);
-
-			setTickets((prevTickets) =>
-				prevTickets.map((ticket) =>
-					ticket.id === newTicket.id
-						? { ...ticket, status: "In-Progress" }
-						: ticket,
-				),
-			);
-		} else {
-			toast.warn("Ticket already exists");
-		}
-	}
-
+function MainSection({
+	tickets,
+	pendingTickets,
+	onPendingTicket,
+	resolvedTickets,
+	onResolveTicket,
+}) {
 	return (
 		<section className="section-main">
 			<div className="container grid grid--7-3 gap-lg main-grid">
-				<TicketSection
-					tickets={tickets}
-					onPendingTicket={handlePendingTicket}
+				<TicketSection tickets={tickets} onPendingTicket={onPendingTicket} />
+				<TaskSection
+					pendingTickets={pendingTickets}
+					resolvedTickets={resolvedTickets}
+					onResolveTicket={onResolveTicket}
 				/>
-				<TaskSection tickets={pendingTickets} />
 			</div>
 		</section>
 	);
@@ -289,30 +322,38 @@ function Ticket({ ticket, onPendingTicket }) {
 	);
 }
 
-function TaskSection({ tickets }) {
+function TaskSection({ pendingTickets, resolvedTickets, onResolveTicket }) {
 	return (
 		<div className="flex flex--dir-col gap-xlg">
-			<TaskStatus tickets={tickets} />
-			<ResolvedTask />
+			<TaskStatus
+				pendingTickets={pendingTickets}
+				onResolveTicket={onResolveTicket}
+			/>
+			<ResolvedTask resolvedTickets={resolvedTickets} />
 		</div>
 	);
 }
 
-function TaskStatus({ tickets }) {
+function TaskStatus({ pendingTickets, onResolveTicket }) {
 	return (
 		<div>
 			<h2 className="secondary-heading mb-rg">Task Status</h2>
-			{tickets.length === 0 ? (
+			{pendingTickets.length === 0 ? (
 				<p>Select a ticket to add to Task Status</p>
 			) : (
 				<div className="flex flex--dir-col gap-rg">
-					{tickets
+					{pendingTickets
 						.slice()
 						.reverse()
 						.map((ticket) => (
 							<div className="flex flex--dir-col gap-rg card">
 								<h3 className="tertiary-heading">{ticket.title}</h3>
-								<button className="btn-complete">Complete</button>
+								<button
+									className="btn-complete"
+									onClick={() => onResolveTicket(ticket)}
+								>
+									Complete
+								</button>
 							</div>
 						))}
 				</div>
@@ -321,21 +362,24 @@ function TaskStatus({ tickets }) {
 	);
 }
 
-function ResolvedTask() {
+function ResolvedTask({ resolvedTickets }) {
 	return (
 		<div>
 			<h2 className="secondary-heading mb-rg">Resolved Task</h2>
-			{/* <p>No resolved tasks yet.</p>  */}
-			<div className="flex flex--dir-col gap-rg">
-				<div className="bg-blue resolved">
-					<h3 className="tertiary-heading">
-						Login Issues - Can't Access Account
-					</h3>
+			{resolvedTickets.length === 0 ? (
+				<p>No resolved tasks yet.</p>
+			) : (
+				<div className="flex flex--dir-col gap-rg">
+					{resolvedTickets
+						.slice()
+						.reverse()
+						.map((ticket) => (
+							<div className="bg-blue resolved">
+								<h3 className="tertiary-heading">{ticket.title}</h3>
+							</div>
+						))}
 				</div>
-				<div className="bg-blue resolved">
-					<h3 className="tertiary-heading">App Crash on Launch</h3>
-				</div>
-			</div>
+			)}
 		</div>
 	);
 }
