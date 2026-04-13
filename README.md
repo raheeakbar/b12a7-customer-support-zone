@@ -1,3 +1,4 @@
+```
 1. What is JSX?
    Answer. HTML-like syntax written inside JavaScript. React converts it to regular JS. Makes component structure readable without leaving JS.
 
@@ -13,3 +14,4 @@
 
 5. How is event handling done in React?
    Answer. Same as JS events but camelCase — onClick, onChange, onSubmit. A function reference is passed not a string like in HTML.
+```
