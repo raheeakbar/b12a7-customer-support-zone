@@ -245,15 +245,19 @@ function TicketSection({ tickets, onPendingTicket }) {
 	return (
 		<div className="section-ticket">
 			<h2 className="secondary-heading mb-rg">Customer Tickets</h2>
-			<div className="grid grid--1-1 gap-rg tickets-grid">
-				{tickets.map((ticket) => (
-					<Ticket
-						key={ticket.id}
-						ticket={ticket}
-						onPendingTicket={onPendingTicket}
-					/>
-				))}
-			</div>
+			{tickets.length === 0 ? (
+				<p>No tickets available.</p>
+			) : (
+				<div className="grid grid--1-1 gap-rg tickets-grid">
+					{tickets.map((ticket) => (
+						<Ticket
+							key={ticket.id}
+							ticket={ticket}
+							onPendingTicket={onPendingTicket}
+						/>
+					))}
+				</div>
+			)}
 		</div>
 	);
 }
