@@ -127,7 +127,7 @@
 	}
 
 	.nav-open .main-nav {
-		opacity: 2;
+		opacity: 1;
 		pointer-events: auto;
 		visibility: visible;
 	}
@@ -221,7 +221,7 @@
 	}
 
 	.section-footer {
-		padding-top: 3.6rem;
+		padding-top: 3.2rem;
 	}
 
 	.footer-grid-main {
@@ -229,11 +229,11 @@
 	}
 
 	.footer-grid-list {
-		row-gap: 3.6rem;
+		row-gap: 3.2rem;
 	}
 
 	.copyright {
-		margin-top: 3.6rem;
+		/* margin-top: 3.2rem; */
 		padding: 1.6rem 0;
 	}
 }
