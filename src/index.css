@@ -386,10 +386,6 @@ button {
 	cursor: pointer;
 }
 
-.card .tertiary-heading {
-	margin-top: 0.4rem;
-}
-
 .card-status {
 	padding: 0.5rem 1rem;
 	border-radius: 1.5rem;
@@ -506,8 +502,7 @@ button {
 }
 
 .footer-icon > svg {
-	margin-top: 0.4rem;
-	margin-left: 0.074rem;
+	display: block;
 }
 
 .footer-icon::after {
